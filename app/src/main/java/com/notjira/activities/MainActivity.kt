@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
@@ -33,11 +32,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Assign the NavigationView.OnNavigationItemSelectedListener to navigation view.
         nav_view.setNavigationItemSelectedListener(this)
 
-        // TODO (Step 3: Call a function to get the current logged in user details.)
-        // START
+
         // Get the current logged in user details.
-        FirestoreClass().signInUser(this@MainActivity)
-        // END
+        FirestoreClass().loadUserData(this@MainActivity)
     }
 
     override fun onBackPressed() {
@@ -52,8 +49,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.nav_my_profile -> {
-
-                Toast.makeText(this@MainActivity, "My Profile", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@MainActivity, MyProfileActivity::class.java))
             }
 
             R.id.nav_sign_out -> {
@@ -96,8 +92,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    // TODO (Step 5: Create a function to update the user details in the navigation view.)
-    // START
     /**
      * A function to get the current user details from firebase.
      */
@@ -121,5 +115,4 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Set the user name
         navUsername.text = user.name
     }
-    // END
 }

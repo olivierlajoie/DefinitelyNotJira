@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">NotJira</string>
+    <string name="app_name">Projemanag</string>
 
     <string name="image_contentDescription">image</string>
     <string name="let_s_get_started_text">Let\'s Get started</string>
-    <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on NotJira’s Minimalist Interface.</string>
+    <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Projemanag’s Minimalist Interface.</string>
     <string name="sign_in">SIGN IN</string>
     <string name="sign_up">SIGN UP</string>
 
@@ -19,4 +19,8 @@
 
     <string name="nav_my_profile">My Profile</string>
     <string name="nav_sign_out">Sign Out</string>
+
+    <string name="mobile">Mobile</string>
+    <string name="update">UPDATE</string>
+    <string name="my_profile">My Profile</string>
 </resources>

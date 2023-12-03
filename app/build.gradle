@@ -40,6 +40,13 @@ dependencies {
     // TODO (Step 7: Add the circular image view dependency.)
     // circular image view dependency
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    // TODO (Step 4: Add a Image Loading library.)
+    // START
+    // Image loading library
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    // END
+
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -2,6 +2,7 @@
   "project_info": {
     "project_number": "907736876353",
     "project_id": "definitelynotjira",
+    "firebase_url": "https://definitelynotjira-default-rtdb.firebaseio.com",
     "storage_bucket": "definitelynotjira.appspot.com"
   },
   "client": [

@@ -74,8 +74,6 @@
     <dimen name="item_board_divider_height">0.3dp</dimen>
     <dimen name="task_list_content_padding">10dp</dimen>
 
-    <!--TODO (Step 2: All the dimen values are added here.)-->
-    <!--START-->
     <dimen name="task_item_cv_elevation">5dp</dimen>
     <dimen name="task_item_add_item_text_padding">12dp</dimen>
     <dimen name="task_item_add_item_text_size">18sp</dimen>
@@ -88,5 +86,15 @@
     <dimen name="task_item_divider_height">0.5dp</dimen>
     <dimen name="task_item_rv_card_list_margin">5dp</dimen>
     <dimen name="task_item_add_card_text_elevation">10dp</dimen>
+
+    <!--TODO (Step 2: All the dimen values are added here.)-->
+    <!--START-->
+    <dimen name="item_card_content_margin">8dp</dimen>
+    <dimen name="item_card_cv_elevation">5dp</dimen>
+    <dimen name="item_card_label_height">15dp</dimen>
+    <dimen name="item_card_name_text_padding">10dp</dimen>
+    <dimen name="item_card_name_text_size">16sp</dimen>
+    <dimen name="item_card_members_text_padding">10dp</dimen>
+    <dimen name="item_card_members_text_size">14sp</dimen>
     <!--END-->
 </resources>

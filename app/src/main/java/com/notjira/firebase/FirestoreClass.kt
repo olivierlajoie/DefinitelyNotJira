@@ -6,6 +6,12 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.notjira.activities.CreateBoardActivity
+import com.notjira.activities.MainActivity
+import com.notjira.activities.MyProfileActivity
+import com.notjira.activities.SignInActivity
+import com.notjira.activities.SignUpActivity
+import com.notjira.activities.TaskListActivity
 import com.notjira.activities.*
 import com.notjira.model.Board
 import com.notjira.model.User
@@ -190,8 +196,33 @@ class FirestoreClass {
             .addOnSuccessListener { document ->
                 Log.e(activity.javaClass.simpleName, document.toString())
 
+                val board = document.toObject(Board::class.java)!!
+                board.documentId = document.id
+
                 // Send the result of board to the base activity.
-                activity.boardDetails(document.toObject(Board::class.java)!!)
+                activity.boardDetails(board)
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
+            }
+    }
+
+    /**
+     * A function to create a task list in the board detail.
+     */
+    fun addUpdateTaskList(activity: TaskListActivity, board: Board) {
+
+        val taskListHashMap = HashMap<String, Any>()
+        taskListHashMap[Constants.TASK_LIST] = board.taskList
+
+        mFireStore.collection(Constants.BOARDS)
+            .document(board.documentId)
+            .update(taskListHashMap)
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "TaskList updated successfully.")
+
+                activity.addUpdateTaskListSuccess()
             }
             .addOnFailureListener { e ->
                 activity.hideProgressDialog()

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TODO (Step 5: Added the dimen values in this file.)-->
+    <!--START-->
+    <dimen name="splash_screen_title_text_size">70sp</dimen>
+    <!--END-->
+</resources>

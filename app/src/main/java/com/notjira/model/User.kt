@@ -3,8 +3,6 @@ package com.notjira.model
 import android.os.Parcel
 import android.os.Parcelable
 
-// TODO (Step 12: Create a User Model using parcelable.)
-// START
 data class User(
     val id: String = "",
     val name: String = "",
@@ -41,4 +39,3 @@ data class User(
         }
     }
 }
-// END

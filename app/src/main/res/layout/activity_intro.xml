@@ -9,7 +9,7 @@
     tools:context=".activities.IntroActivity">
 
     <TextView
-        android:id="@+id/tv_app_name"
+        android:id="@+id/tv_app_name_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/intro_screen_title_text_marginTop"
@@ -46,7 +46,7 @@
         android:textSize="@dimen/intro_text_size" />
 
     <Button
-        android:id="@+id/btn_sign_in"
+        android:id="@+id/btn_sign_in_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -63,7 +63,7 @@
         android:textSize="@dimen/btn_text_size" />
 
     <Button
-        android:id="@+id/btn_sign_up"
+        android:id="@+id/btn_sign_up_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

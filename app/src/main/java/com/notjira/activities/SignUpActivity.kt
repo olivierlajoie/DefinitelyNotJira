@@ -9,6 +9,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.notjira.R
+import com.notjira.firebase.FirestoreClass
 import com.notjira.model.User
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -31,10 +32,8 @@ class SignUpActivity : BaseActivity() {
 
         setupActionBar()
 
-        // TODO (Step 11: Add a click event to the Sign-Up button and call the registerUser function.)
-        // START
         // Click event for sign-up button.
-        btn_sign_up.setOnClickListener{
+        btn_sign_up.setOnClickListener {
             registerUser()
         }
     }
@@ -55,30 +54,48 @@ class SignUpActivity : BaseActivity() {
         toolbar_sign_up_activity.setNavigationOnClickListener { onBackPressed() }
     }
 
-    // TODO (Step 9: A function to register a new user to the app.)
-    // START
     /**
      * A function to register a user to our app using the Firebase.
      * For more details visit: https://firebase.google.com/docs/auth/android/custom-auth
      */
-    private fun registerUser(){
+    private fun registerUser() {
+        // Here we get the text from editText and trim the space
         val name: String = et_name.text.toString().trim { it <= ' ' }
         val email: String = et_email.text.toString().trim { it <= ' ' }
         val password: String = et_password.text.toString().trim { it <= ' ' }
 
         if (validateForm(name, email, password)) {
+            // Show the progress dialog.
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(
+                    OnCompleteListener<AuthResult> { task ->
 
-            Toast.makeText(
-                this@SignUpActivity,
-                "Now we can register a new user.",
-                Toast.LENGTH_SHORT
-            ).show()
+                        // If the registration is successfully done
+                        if (task.isSuccessful) {
+
+                            // Firebase registered user
+                            val firebaseUser: FirebaseUser = task.result!!.user!!
+                            // Registered Email
+                            val registeredEmail = firebaseUser.email!!
+
+                            val user = User(
+                                firebaseUser.uid, name, registeredEmail
+                            )
+
+                            // call the registerUser function of FirestoreClass to make an entry in the database.
+                            FirestoreClass().registerUser(this@SignUpActivity, user)
+                        } else {
+                            Toast.makeText(
+                                this@SignUpActivity,
+                                task.exception!!.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
         }
     }
-    // END
 
-    // TODO (Step 10: A function to validate the entries of a new user.)
-    // START
     /**
      * A function to validate the entries of a new user.
      */
@@ -101,5 +118,27 @@ class SignUpActivity : BaseActivity() {
             }
         }
     }
-    // END
+
+    /**
+     * A function to be called the user is registered successfully and entry is made in the firestore database.
+     */
+    fun userRegisteredSuccess() {
+
+        Toast.makeText(
+            this@SignUpActivity,
+            "You have successfully registered.",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        // Hide the progress dialog
+        hideProgressDialog()
+
+        /**
+         * Here the new user registered is automatically signed-in so we just sign-out the user from firebase
+         * and send him to Intro Screen for Sign-In
+         */
+        FirebaseAuth.getInstance().signOut()
+        // Finish the Sign-Up Screen
+        finish()
+    }
 }

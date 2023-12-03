@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.notjira.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,20 +20,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.IntroActivity"
+            android:name="com.notjira.activities.IntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name="com.notjira.activities.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".activities.SignInActivity"
+        <activity android:name="com.notjira.activities.SignInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".activities.MainActivity" />
+        <!--TODO (Step 10: Modify the activity tag for MainActivity.)-->
+        <!--START-->
+        <activity
+            android:name="com.notjira.activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--END-->
     </application>
 
 </manifest>

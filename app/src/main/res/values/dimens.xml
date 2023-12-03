@@ -54,4 +54,39 @@
     <dimen name="my_profile_et_email_marginTop">20dp</dimen>
     <dimen name="my_profile_et_mobile_marginTop">20dp</dimen>
     <dimen name="my_profile_btn_update_marginTop">30dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="create_board_content_padding">16dp</dimen>
+    <dimen name="board_image_size">100dp</dimen>
+    <dimen name="create_board_til_marginTop">25dp</dimen>
+    <dimen name="create_board_btn_marginTop">30dp</dimen>
+
+    <dimen name="main_screen_content_padding">16dp</dimen>
+    <dimen name="no_boards_available_text_size">16sp</dimen>
+    <dimen name="item_board_content_marginBottom">10dp</dimen>
+    <dimen name="item_board_content_padding">10dp</dimen>
+    <dimen name="item_board_image_size">60dp</dimen>
+    <dimen name="item_board_image_circular_border_width">0.5dp</dimen>
+    <dimen name="item_board_name_layout_marginStart">10dp</dimen>
+    <dimen name="item_board_name_text_size">18sp</dimen>
+    <dimen name="item_board_created_by_text_size">14sp</dimen>
+    <dimen name="item_board_divider_marginTop">5dp</dimen>
+    <dimen name="item_board_divider_height">0.3dp</dimen>
+    <dimen name="task_list_content_padding">10dp</dimen>
+
+    <!--TODO (Step 2: All the dimen values are added here.)-->
+    <!--START-->
+    <dimen name="task_item_cv_elevation">5dp</dimen>
+    <dimen name="task_item_add_item_text_padding">12dp</dimen>
+    <dimen name="task_item_add_item_text_size">18sp</dimen>
+    <dimen name="task_item_cv_margin">5dp</dimen>
+    <dimen name="task_item_cv_corner_radius">5dp</dimen>
+    <dimen name="task_item_image_buttons_padding">10dp</dimen>
+    <dimen name="task_item_title_view_elevation">10dp</dimen>
+    <dimen name="task_item_title_text_padding">10dp</dimen>
+    <dimen name="task_item_title_text_size">16sp</dimen>
+    <dimen name="task_item_divider_height">0.5dp</dimen>
+    <dimen name="task_item_rv_card_list_margin">5dp</dimen>
+    <dimen name="task_item_add_card_text_elevation">10dp</dimen>
+    <!--END-->
 </resources>

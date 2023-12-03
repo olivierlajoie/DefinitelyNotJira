@@ -45,6 +45,16 @@
         <activity android:name=".activities.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-    </application>
 
+        <activity
+            android:name=".activities.CreateBoardActivity"
+            android:label="@string/create_board_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activities.TaskListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+    </application>
 </manifest>

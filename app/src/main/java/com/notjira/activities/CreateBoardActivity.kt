@@ -191,7 +191,7 @@ class CreateBoardActivity : BaseActivity() {
      */
     private fun createBoard() {
 
-        //  A list is created to add the assigned members.
+        //  A list is created to add the assigned menu_members.
         //  This can be modified later on as of now the user itself will be the member of the board.
         val assignedUsersArrayList: ArrayList<String> = ArrayList()
         assignedUsersArrayList.add(getCurrentUserID()) // adding the current user id.

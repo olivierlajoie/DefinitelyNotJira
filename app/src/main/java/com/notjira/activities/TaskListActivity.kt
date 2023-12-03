@@ -1,7 +1,11 @@
 package com.notjira.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.notjira.R
 import com.notjira.adapters.TaskListItemsAdapter
@@ -17,18 +21,24 @@ class TaskListActivity : BaseActivity() {
     // A global variable for Board Details.
     private lateinit var mBoardDetails: Board
 
+    // TODO (Step 7: Create global variable for board document id)
+    // START
+    // A global variable for board document id as mBoardDocumentId
+    private lateinit var mBoardDocumentId: String
+    // END
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
-        var boardDocumentId = ""
+        // TODO (Step 6 : Make the document id global.)
         if (intent.hasExtra(Constants.DOCUMENT_ID)) {
-            boardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID)!!
+            mBoardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID)!!
         }
 
         // Show the progress dialog.
         showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().getBoardDetails(this@TaskListActivity, boardDocumentId)
+        FirestoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
     }
 
     /**
@@ -47,6 +57,45 @@ class TaskListActivity : BaseActivity() {
 
         toolbar_task_list_activity.setNavigationOnClickListener { onBackPressed() }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu to use in the action bar
+        menuInflater.inflate(R.menu.menu_members, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        when (item.itemId) {
+            R.id.action_members -> {
+
+                val intent = Intent(this@TaskListActivity, MembersActivity::class.java)
+                intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
+                // TODO (Step 2: Start activity for result.)
+                // START
+                startActivityForResult(intent, MEMBERS_REQUEST_CODE)
+                return true
+                // END
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    // TODO (Step 8: Add the onActivityResult function add based on the requested document get the updated board details.)
+    // START
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK
+            && requestCode == MEMBERS_REQUEST_CODE
+        ) {
+            // Show the progress dialog.
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
+        } else {
+            Log.e("Cancelled", "Cancelled")
+        }
+    }
+    // END
 
     /**
      * A function to get the result of Board Detail.
@@ -161,4 +210,15 @@ class TaskListActivity : BaseActivity() {
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
     }
+
+    // TODO (Step 1: Create a companion object and declare a constant for starting an MembersActivity for result.)
+    // START
+    /**
+     * A companion object to declare the constants.
+     */
+    companion object {
+        //A unique code for starting the activity for result
+        const val MEMBERS_REQUEST_CODE: Int = 13
+    }
+    // END
 }

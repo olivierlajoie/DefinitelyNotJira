@@ -22,6 +22,10 @@ object Constants {
     const val ASSIGNED_TO: String = "assignedTo"
     const val DOCUMENT_ID: String = "documentId"
     const val TASK_LIST: String = "taskList"
+    const val ID: String = "id"
+    const val EMAIL: String = "email"
+
+    const val BOARD_DETAIL: String = "board_detail"
 
     //A unique code for asking the Read Storage Permission using this we will be check and identify in the method onRequestPermissionsResult
     const val READ_STORAGE_PERMISSION_CODE = 1

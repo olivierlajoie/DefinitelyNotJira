@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Definitely Not Jira</string>
+    <string name="app_name">DefinitelyNotJira</string>
 
     <string name="image_contentDescription">image</string>
     <string name="let_s_get_started_text">Let\'s Get started</string>
@@ -42,4 +42,24 @@
     <string name="cancel">CANCEL</string>
     <string name="add">ADD</string>
     <string name="search_member">Search Member</string>
+
+    <string name="label_color">Label Color</string>
+    <string name="select_color">Select Color</string>
+    <string name="select_members">Select Members</string>
+
+    <string name="due_date">Due Date</string>
+    <string name="select_due_date">Select Due Date</string>
+    <string name="delete_card">Delete Card</string>
+
+    <string name="alert">Alert</string>
+    <string name="confirmation_message_to_delete_card">Are you sure you want to delete card \'%1$s\'?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="str_select_label_color">Select Label Color</string>
+
+    <string name="str_select_member">Select Member</string>
+
+
+    <string name="default_notification_channel_id">projemanag_notification_channel_id</string>
 </resources>

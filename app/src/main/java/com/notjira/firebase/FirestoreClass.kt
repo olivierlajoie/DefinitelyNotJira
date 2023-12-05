@@ -97,21 +97,34 @@ class FirestoreClass {
     /**
      * A function to update the user profile data into the database.
      */
-    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
+    fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
         mFireStore.collection(Constants.USERS) // Collection Name
             .document(getCurrentUserID()) // Document ID
             .update(userHashMap) // A hashmap of fields which are to be updated.
             .addOnSuccessListener {
-                // Profile data is updated successfully.
-                Log.e(activity.javaClass.simpleName, "Profile Data updated successfully!")
-
-                Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                Log.e(activity.javaClass.simpleName, "Data updated successfully!")
 
                 // Notify the success result.
-                activity.profileUpdateSuccess()
+
+                when (activity) {
+                    is MainActivity -> {
+                        activity.tokenUpdateSuccess()
+                    }
+                    is MyProfileActivity -> {
+                        activity.profileUpdateSuccess()
+                    }
+                }
             }
             .addOnFailureListener { e ->
-                activity.hideProgressDialog()
+                when (activity) {
+                    is MainActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is MyProfileActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while creating a board.",
@@ -205,7 +218,7 @@ class FirestoreClass {
     /**
      * A function to create a task list in the board detail.
      */
-    fun addUpdateTaskList(activity: TaskListActivity, board: Board) {
+    fun addUpdateTaskList(activity: Activity, board: Board) {
 
         val taskListHashMap = HashMap<String, Any>()
         taskListHashMap[Constants.TASK_LIST] = board.taskList
@@ -216,10 +229,18 @@ class FirestoreClass {
             .addOnSuccessListener {
                 Log.e(activity.javaClass.simpleName, "TaskList updated successfully.")
 
-                activity.addUpdateTaskListSuccess()
+                if (activity is TaskListActivity) {
+                    activity.addUpdateTaskListSuccess()
+                } else if (activity is CardDetailsActivity) {
+                    activity.addUpdateTaskListSuccess()
+                }
             }
             .addOnFailureListener { e ->
-                activity.hideProgressDialog()
+                if (activity is TaskListActivity) {
+                    activity.hideProgressDialog()
+                } else if (activity is TaskListActivity) {
+                    activity.hideProgressDialog()
+                }
                 Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
             }
     }
@@ -227,7 +248,7 @@ class FirestoreClass {
     /**
      * A function to get the list of user details which is assigned to the board.
      */
-    fun getAssignedMembersListDetails(activity: MembersActivity, assignedTo: ArrayList<String>) {
+    fun getAssignedMembersListDetails(activity: Activity, assignedTo: ArrayList<String>) {
 
         mFireStore.collection(Constants.USERS) // Collection Name
             .whereIn(
@@ -246,10 +267,18 @@ class FirestoreClass {
                     usersList.add(user)
                 }
 
-                activity.setupMembersList(usersList)
+                if (activity is MembersActivity) {
+                    activity.setupMembersList(usersList)
+                } else if (activity is TaskListActivity) {
+                    activity.boardMembersDetailList(usersList)
+                }
             }
             .addOnFailureListener { e ->
-                activity.hideProgressDialog()
+                if (activity is MembersActivity) {
+                    activity.hideProgressDialog()
+                } else if (activity is TaskListActivity) {
+                    activity.hideProgressDialog()
+                }
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while creating a board.",

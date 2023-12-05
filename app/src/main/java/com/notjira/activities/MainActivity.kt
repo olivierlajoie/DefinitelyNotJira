@@ -1,7 +1,9 @@
 package com.notjira.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
 import com.notjira.R
 import com.notjira.adapters.BoardItemsAdapter
 import com.notjira.firebase.FirestoreClass
@@ -23,10 +26,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
+
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     // A global variable for User Name
     private lateinit var mUserName: String
+
+    // A global variable for SharedPreferences
+    private lateinit var mSharedPreferences: SharedPreferences
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -43,10 +50,24 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Assign the NavigationView.OnNavigationItemSelectedListener to navigation view.
         nav_view.setNavigationItemSelectedListener(this)
 
-        // Get the current logged in user details.
-        // Show the progress dialog.
-        showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().loadUserData(this@MainActivity, true)
+        mSharedPreferences =
+            this.getSharedPreferences(Constants.PROGEMANAG_PREFERENCES, Context.MODE_PRIVATE)
+
+        // Variable is used get the value either token is updated in the database or not.
+        val tokenUpdated = mSharedPreferences.getBoolean(Constants.FCM_TOKEN_UPDATED, false)
+
+        // Here if the token is already updated than we don't need to update it every time.
+        if (tokenUpdated) {
+            // Get the current logged in user details.
+            // Show the progress dialog.
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().loadUserData(this@MainActivity, true)
+        } else {
+            FirebaseInstanceId.getInstance()
+                .instanceId.addOnSuccessListener(this@MainActivity) { instanceIdResult ->
+                updateFCMToken(instanceIdResult.token)
+            }
+        }
 
         fab_create_board.setOnClickListener {
             val intent = Intent(this@MainActivity, CreateBoardActivity::class.java)
@@ -69,14 +90,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_my_profile -> {
 
                 startActivityForResult(
-                        Intent(this@MainActivity, MyProfileActivity::class.java),
-                        MY_PROFILE_REQUEST_CODE
+                    Intent(this@MainActivity, MyProfileActivity::class.java),
+                    MY_PROFILE_REQUEST_CODE
                 )
             }
 
             R.id.nav_sign_out -> {
                 // Here sign outs the user from firebase in this device.
                 FirebaseAuth.getInstance().signOut()
+
+                mSharedPreferences.edit().clear().apply()
 
                 // Send the user to the intro screen of the application.
                 val intent = Intent(this, IntroActivity::class.java)
@@ -93,12 +116,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK
-                && requestCode == MY_PROFILE_REQUEST_CODE
+            && requestCode == MY_PROFILE_REQUEST_CODE
         ) {
             // Get the user updated details.
             FirestoreClass().loadUserData(this@MainActivity)
         } else if (resultCode == Activity.RESULT_OK
-                && requestCode == CREATE_BOARD_REQUEST_CODE
+            && requestCode == CREATE_BOARD_REQUEST_CODE
         ) {
             // Get the latest boards list.
             FirestoreClass().getBoardsList(this@MainActivity)
@@ -149,11 +172,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         // Load the user image in the ImageView.
         Glide
-                .with(this@MainActivity)
-                .load(user.image) // URL of the image
-                .centerCrop() // Scale type of the image.
-                .placeholder(R.drawable.ic_user_place_holder) // A default place holder
-                .into(navUserImage) // the view in which the image will be loaded.
+            .with(this@MainActivity)
+            .load(user.image) // URL of the image
+            .centerCrop() // Scale type of the image.
+            .placeholder(R.drawable.ic_user_place_holder) // A default place holder
+            .into(navUserImage) // the view in which the image will be loaded.
 
         // The instance of the user name TextView of the navigation view.
         val navUsername = headerView.findViewById<TextView>(R.id.tv_username)
@@ -165,6 +188,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             showProgressDialog(resources.getString(R.string.please_wait))
             FirestoreClass().getBoardsList(this@MainActivity)
         }
+    }
+
+    /**
+     * A function to update the user's FCM token into the database.
+     */
+    private fun updateFCMToken(token: String) {
+
+        val userHashMap = HashMap<String, Any>()
+        userHashMap[Constants.FCM_TOKEN] = token
+
+        // Update the data in the database.
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().updateUserProfileData(this@MainActivity, userHashMap)
     }
 
     /**
@@ -187,7 +224,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             rv_boards_list.adapter = adapter // Attach the adapter to the recyclerView.
 
             adapter.setOnClickListener(object :
-                    BoardItemsAdapter.OnClickListener {
+                BoardItemsAdapter.OnClickListener {
                 override fun onClick(position: Int, model: Board) {
                     val intent = Intent(this@MainActivity, TaskListActivity::class.java)
                     intent.putExtra(Constants.DOCUMENT_ID, model.documentId)
@@ -198,6 +235,25 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             rv_boards_list.visibility = View.GONE
             tv_no_boards_available.visibility = View.VISIBLE
         }
+    }
+
+    /**
+     * A function to notify the token is updated successfully in the database.
+     */
+    fun tokenUpdateSuccess() {
+
+        hideProgressDialog()
+
+        // Here we have added a another value in shared preference that the token is updated in the database successfully.
+        // So we don't need to update it every time.
+        val editor: SharedPreferences.Editor = mSharedPreferences.edit()
+        editor.putBoolean(Constants.FCM_TOKEN_UPDATED, true)
+        editor.apply()
+
+        // Get the current logged in user details.
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().loadUserData(this@MainActivity, true)
     }
 
     /**

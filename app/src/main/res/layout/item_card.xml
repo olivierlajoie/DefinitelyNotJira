@@ -28,15 +28,13 @@
             android:textSize="@dimen/item_card_name_text_size"
             tools:text="Card Name" />
 
-        <TextView
-            android:id="@+id/tv_members_name"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_card_selected_members_list"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_gravity="end"
-            android:padding="@dimen/item_card_members_text_padding"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/item_card_members_text_size"
             android:visibility="gone"
-            tools:text="Members Name" />
+            tools:visibility="visible" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

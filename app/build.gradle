@@ -36,11 +36,10 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:19.2.0"
     // Firebase Cloud Firestore Dependency
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
-    // TODO (Step 1: Add the firebase storage dependency.)
-    // START
     // Firebase Storage Dependency
     implementation 'com.google.firebase:firebase-storage:19.1.1'
-    // END
+    // Firebase Messaging Dependency
+    implementation 'com.google.firebase:firebase-messaging:20.1.1'
     // circular image view dependency
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     // Image loading library

@@ -58,6 +58,7 @@
                     android:layout_weight="1"
                     android:autofillHints="@string/hint_list_name"
                     android:hint="@string/hint_list_name"
+                    android:imeOptions="actionDone"
                     android:inputType="text" />
 
                 <ImageButton
@@ -158,6 +159,7 @@
                         android:layout_weight="1"
                         android:autofillHints="@string/hint_list_name"
                         android:hint="@string/hint_list_name"
+                        android:imeOptions="actionDone"
                         android:inputType="text" />
 
                     <ImageButton
@@ -209,6 +211,7 @@
                         android:layout_weight="1"
                         android:autofillHints="@string/hint_card_name"
                         android:hint="@string/hint_card_name"
+                        android:imeOptions="actionDone"
                         android:inputType="text" />
 
                     <ImageButton
